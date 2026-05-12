@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Offline AI Podcast</title>
+  <style>
+    :root {
+      --bg:       #1d1d1f;
+      --bg-deep:  #161618;
+      --bg-soft:  #2a2a2c;
+      --silver:   #a1a1a6;
+      --silver-2: #86868b;
+      --white:    #f5f5f7;
+      --line:     #424245;
+      --chrome:   #d6d6d6;
+      --green:    #1DB954;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      background: radial-gradient(120% 90% at 50% 0%, #2f2f31 0%, #1d1d1f 55%, #131315 100%);
+      color: var(--white);
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.5;
+    }
+    .topbar {
+      border-bottom: 1px solid var(--line);
+      padding: 18px 28px;
+      font-size: 14px;
+      letter-spacing: 0.02em;
+      color: var(--silver);
+    }
+    .topbar strong { color: var(--white); font-weight: 500; }
+
+    .hero {
+      padding: 120px 28px 96px;
+      text-align: center;
+    }
+    .inner { max-width: 960px; margin: 0 auto; }
+    .inner-narrow { max-width: 760px; margin: 0 auto; }
+
+    .eyebrow {
+      color: var(--silver);
+      font-size: 15px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 22px;
+    }
+    h1 {
+      font-size: 104px;
+      line-height: 1.02;
+      font-weight: 600;
+      letter-spacing: -0.035em;
+      margin: 0 0 28px;
+      background: linear-gradient(180deg, #ffffff 0%, #d6d6d6 55%, #8e8e93 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .tagline {
+      font-size: 26px;
+      color: var(--silver);
+      font-weight: 400;
+      max-width: 760px;
+      margin: 0 auto 56px;
+      letter-spacing: -0.005em;
+    }
+
+    section.band {
+      padding: 96px 28px;
+      border-top: 1px solid var(--line);
+    }
+    section.band.dark {
+      background: var(--bg-deep);
+    }
+
+    h2 {
+      font-size: 56px;
+      line-height: 1.05;
+      font-weight: 600;
+      letter-spacing: -0.025em;
+      margin: 0 0 20px;
+      text-align: center;
+      background: linear-gradient(180deg, #ffffff 0%, #c7c7cc 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    h2 + .sub {
+      text-align: center;
+      color: var(--silver);
+      font-size: 20px;
+      margin: 0 auto 64px;
+      max-width: 640px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .card {
+      background: linear-gradient(180deg, #232325 0%, #1a1a1c 100%);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      padding: 32px 28px;
+    }
+    .card h3 {
+      font-size: 22px;
+      font-weight: 600;
+      margin: 0 0 10px;
+      color: var(--white);
+      letter-spacing: -0.01em;
+    }
+    .card p {
+      font-size: 16px;
+      color: var(--silver);
+      margin: 0;
+    }
+    .card .ico {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: linear-gradient(180deg, #3a3a3c 0%, #2a2a2c 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 18px;
+      font-size: 18px;
+    }
+
+    .voices {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 14px;
+      margin-top: 12px;
+    }
+    .voice {
+      background: linear-gradient(180deg, #232325 0%, #1a1a1c 100%);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 22px 18px;
+      text-align: center;
+    }
+    .voice .name {
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: 4px;
+    }
+    .voice .meta {
+      font-size: 13px;
+      color: var(--silver);
+      letter-spacing: 0.02em;
+    }
+    .voice.default {
+      border-color: var(--green);
+      box-shadow: 0 0 0 1px var(--green) inset;
+    }
+    .voice.default .badge {
+      display: inline-block;
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--green);
+      margin-top: 8px;
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .step .num {
+      font-size: 56px;
+      font-weight: 600;
+      letter-spacing: -0.03em;
+      color: var(--silver-2);
+      line-height: 1;
+      margin-bottom: 12px;
+    }
+    .step h3 {
+      font-size: 22px;
+      margin: 0 0 8px;
+      color: var(--white);
+      font-weight: 600;
+    }
+    .step p {
+      color: var(--silver);
+      margin: 0;
+      font-size: 16px;
+    }
+
+    .privacy {
+      text-align: center;
+    }
+    .privacy h2 { margin-bottom: 24px; }
+    .privacy p {
+      font-size: 20px;
+      color: var(--silver);
+      max-width: 680px;
+      margin: 0 auto 14px;
+    }
+    .privacy .chips {
+      margin-top: 32px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+    }
+    .chip {
+      border: 1px solid var(--line);
+      background: var(--bg-soft);
+      color: var(--white);
+      font-size: 14px;
+      padding: 9px 16px;
+      border-radius: 999px;
+      letter-spacing: 0.01em;
+    }
+
+    .cta {
+      text-align: center;
+      padding: 120px 28px;
+      border-top: 1px solid var(--line);
+    }
+    .cta h2 { font-size: 64px; margin-bottom: 16px; }
+    .cta p { color: var(--silver); font-size: 19px; margin: 0 auto 40px; max-width: 600px; }
+    .email {
+      display: inline-block;
+      font-size: 19px;
+      color: var(--white);
+      text-decoration: none;
+      border: 1px solid var(--chrome);
+      padding: 15px 30px;
+      border-radius: 999px;
+      letter-spacing: 0.01em;
+      transition: background 0.18s ease, color 0.18s ease, transform 0.18s ease;
+    }
+    .email:hover {
+      background: linear-gradient(180deg, #f5f5f7 0%, #c7c7cc 100%);
+      color: #1d1d1f;
+      transform: translateY(-1px);
+    }
+
+    footer {
+      text-align: center;
+      color: var(--silver-2);
+      font-size: 13px;
+      padding: 28px 28px 44px;
+      border-top: 1px solid var(--line);
+    }
+
+    @media (max-width: 960px) {
+      .grid { grid-template-columns: repeat(2, 1fr); }
+      .voices { grid-template-columns: repeat(2, 1fr); }
+      .steps { grid-template-columns: 1fr; gap: 36px; }
+    }
+    @media (max-width: 720px) {
+      .hero { padding: 80px 22px 64px; }
+      h1 { font-size: 56px; }
+      .tagline { font-size: 18px; margin-bottom: 40px; }
+      section.band { padding: 72px 22px; }
+      h2 { font-size: 38px; }
+      h2 + .sub { font-size: 17px; margin-bottom: 44px; }
+      .grid { grid-template-columns: 1fr; }
+      .voices { grid-template-columns: 1fr; }
+      .cta { padding: 80px 22px; }
+      .cta h2 { font-size: 40px; }
+      .email { font-size: 17px; padding: 13px 24px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar"><strong>Offline AI Podcast</strong></div>
+
+  <section class="hero">
+    <div class="inner">
+      <div class="eyebrow">Offline AI Podcast</div>
+      <h1>Any topic.<br>A podcast in seconds.</h1>
+      <p class="tagline">Generated and spoken entirely on your iPhone. No internet. No accounts. No ads.</p>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="inner">
+      <h2>Built for the way you listen.</h2>
+      <p class="sub">A pocket-sized studio that writes and narrates a fresh episode the moment you tap a topic.</p>
+      <div class="grid">
+        <div class="card">
+          <div class="ico">&#9889;</div>
+          <h3>Instant episodes</h3>
+          <p>Tap a topic and a roughly thousand-word podcast streams live, word by word, in seconds.</p>
+        </div>
+        <div class="card">
+          <div class="ico">&#127908;</div>
+          <h3>Real human-like voices</h3>
+          <p>Five neural Piper voices speak the episode in real time as it's written &mdash; no robotic delays, no cloud round-trips.</p>
+        </div>
+        <div class="card">
+          <div class="ico">&#9836;</div>
+          <h3>Lyrics-style follow</h3>
+          <p>Watch the current sentence light up as it's spoken. Past lines dim. Future lines wait their turn.</p>
+        </div>
+        <div class="card">
+          <div class="ico">&#128073;</div>
+          <h3>Tap any word to jump</h3>
+          <p>Touch a word and the narration restarts from that sentence. Scrub through ideas like a Spotify track.</p>
+        </div>
+        <div class="card">
+          <div class="ico">&#128221;</div>
+          <h3>Load next chapter</h3>
+          <p>Reached the end? Continue the same thread &mdash; the model picks up with the previous paragraph as context.</p>
+        </div>
+        <div class="card">
+          <div class="ico">&#9881;</div>
+          <h3>Five playback speeds</h3>
+          <p>0.75&times;, 1&times;, 1.25&times;, 1.5&times; and 2&times;. Pick a pace, the voice stays natural.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band dark">
+    <div class="inner">
+      <h2>Pick your narrator.</h2>
+      <p class="sub">Five on-device voices, bundled with the app. No downloads, no subscriptions.</p>
+      <div class="voices">
+        <div class="voice"><div class="name">Alan</div><div class="meta">UK &middot; Male</div></div>
+        <div class="voice"><div class="name">Ryan</div><div class="meta">US &middot; Male</div></div>
+        <div class="voice default">
+          <div class="name">Jenny</div>
+          <div class="meta">UK &middot; Female</div>
+          <div class="badge">Default</div>
+        </div>
+        <div class="voice"><div class="name">Amy</div><div class="meta">US &middot; Female</div></div>
+        <div class="voice"><div class="name">Kathleen</div><div class="meta">US &middot; Female</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="inner">
+      <h2>How it works.</h2>
+      <p class="sub">A whole studio runs on the phone in your hand.</p>
+      <div class="steps">
+        <div class="step">
+          <div class="num">01</div>
+          <h3>Choose a topic</h3>
+          <p>Tap a featured card, browse Recent, or type your own search. Ten fresh angles appear every time.</p>
+        </div>
+        <div class="step">
+          <div class="num">02</div>
+          <h3>The model writes</h3>
+          <p>A bundled Llama 3.2 1B language model drafts the episode on-device, streaming each word as it arrives.</p>
+        </div>
+        <div class="step">
+          <div class="num">03</div>
+          <h3>The voice speaks</h3>
+          <p>Sentences are handed to the neural voice engine and spoken aloud in real time. No buffering, no servers.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band dark privacy">
+    <div class="inner-narrow">
+      <h2>Private by design.</h2>
+      <p>Nothing you type, hear, or generate ever leaves your iPhone. Every word is written and spoken locally &mdash; the app works in airplane mode.</p>
+      <div class="chips">
+        <span class="chip">100% on-device</span>
+        <span class="chip">No accounts</span>
+        <span class="chip">No tracking</span>
+        <span class="chip">No ads</span>
+        <span class="chip">Works offline</span>
+        <span class="chip">iPhone &middot; iOS 16.4+</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta">
+    <div class="inner-narrow">
+      <h2>Questions or feedback?</h2>
+      <p>Drop a note &mdash; every email is read.</p>
+      <a class="email" href="mailto:sivavimelrajhen@gmail.com">sivavimelrajhen@gmail.com</a>
+    </div>
+  </section>
+
+  <footer>&copy; Offline AI Podcast</footer>
+</body>
+</html>
